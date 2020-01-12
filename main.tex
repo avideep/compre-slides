@@ -217,11 +217,11 @@ Apply a series of such mappings $f_k$, $k \in {1,\dots, K}$ with $K \in \mathbb{
 
 
 \begin{frame}{Normalizing Flows}
-Loss Function :%\footnote{For derivation of the Energy Function, see Appendix}
+Loss Function :\footnote{For the derivation of the Variational Free Energy, see Slide \ref{appendix}: Appendix}
 \begin{eqnarray}
 \mathcal{F}(x) &=& E_{\mathbf{z} \sim q}[\log q(\mathbf{z}) - \log P(x, \mathbf{z})] \\
-&=&  E_{z \sim Q}[\log Q(z_K) - \log P(x, z_K)] \\
-&=&  E_{z \sim Q}[\log Q(z_0) - \sum_{k=1}^{K} \log \left| \det \frac{\partial{f_k}}{\partial{z_{k-1}}} \right| - \log P(x, z_K)] \label{vfeflow}
+&=&  E_{z \sim q}[\log q(\mathbf{z_K}) - \log P(x, \mathbf{z_K})] \\
+&=&  E_{z \sim q}[\log q(\mathbf{z_0}) - \sum_{k=1}^{K} \log \left| \det \frac{\partial{f_k}}{\partial{\mathbf{z_{k-1}}}} \right| - \log P(x, \mathbf{z_K})] \label{vfeflow}
 \end{eqnarray}
 \end{frame}
 \begin{frame}{Planar Flows}
@@ -402,7 +402,7 @@ Notice the similarity between Eq (\ref{transf}) and (\ref{aaf}).
 \begin{figure}
     \centering
     \includegraphics[width = \textwidth, \keepaspectratio]{naf-result-dino.png}
-    \caption{\textbf{Left}: Target Distribution, \textbf{Right}: Modeled by NAF.\footnote{Image Source: https://medium.com/element-ai-research-lab/neural-autoregressive-flows-f164d6b8e462 }}
+    \caption{\textbf{Left}: Target Distribution, \textbf{Right}: Modeled by NAF.\footnote{Image Source: https://medium.com/element-ai-research-lab/neural-autoregressive-flows-f164d6b8e462 }\\Any resemblance of the distribution with any animal, living or extinct, is purely co-incidental.}
     \label{fig:my_label}
 \end{figure}
 \end{frame}
@@ -445,5 +445,19 @@ likelihood. Left: true distribution. Center: AAF. Right: NAF\footnote{Image Sour
   \centering \LARGE
   \emph{Thank you}
 \end{frame}
-
+\begin{frame}{Appendix}
+\label{appendix}
+    \begin{itemize}
+        \item Derivation of the variational free enery :
+    \end{itemize}
+    \begin{eqnarray}
+    F(x) &=& D_{KL}(Q(z) || P(z)) - E_{z \sim Q}[\log P(x|z)]\\
+    &=& \int_{z} Q(z) \log \frac{Q(z)}{P(z)} dz - E_{z \sim Q}[\log P(x|z)]\\
+    &=& E_{z \sim Q}[\log \frac{Q(z)}{P(z)}] - E_{z \sim Q}[\log P(x|z)]\\
+    &=& E_{z \sim Q}[\log \frac{Q(z)}{P(z)} - \log P(x|z)]  \\
+    &=& E_{z \sim Q}[\log Q(z) - \log P(z)  - \log P(x|z)]  \\
+    &=& E_{z \sim Q}[\log Q(z) - (\log P(z)  + \log P(x|z))]\\
+    &=& E_{z \sim Q}[\log Q(z) - \log P(x, z))]
+    \end{eqnarray}
+\end{frame}
 \end{document} 
